@@ -1,6 +1,6 @@
 
 ####This script run a Weighted Averaging analysis to estimate species optima of occurrence along an environmetal gradient####
-#uses Tolerance downweighting and monotonic deshrinking. See more in Rioja documentation
+###It corresponds to step 1 in the enviromental mapping based on species records method describe in Zuquim et al. XXXX###
 
 
 #load data
@@ -24,6 +24,8 @@ plot(WA_ALL)
 #evaluate the predictions using cross-validation
 crossWA<-crossval(WA_ALL)
 summary(WA_ALL)
+
+###check if the correlations are high and if they do, proceed to save optimas to be associated with ocuurance records for mapping
 
 #assigns an object to the estimated species optima
 otimosALL<-as.data.frame(coef(WA_ALL))
