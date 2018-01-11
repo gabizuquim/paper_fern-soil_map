@@ -21,57 +21,113 @@ coordinates(grd) <- ~x + y
 proj4string(grd) <- CRS("+proj=longlat +datum=WGS84")
 gridded(grd) <- TRUE
 
-
-
 ####Averaging####
-####soil+ferns average####
-#setwd("/Volumes/ZUQUIMUTU/workspaceHD_Gabi_Zuquim20DEC2016/Papers em andamento copy/Ancillary data paper/ANALYSIS_NEW/codes shared")
-data<-read.csv2("krig_dataSHARE.csv")
-inTable3 <- na.omit(data)
-head(inTable3)
-#check for duplicates
-dupl3 <- duplicated(inTable3)
-sum(dupl3)
+####plant derived soil values average####
+inTable<-read.csv2("fern_dataSHARE.csv")
+names(inTable)
+inLon <- inTable$lon
+inLat <- inTable$lat
+inSB <- inTable$Optima
 
-#seems there are none
-inTable3 <- inTable3[!dupl3,]
-inLon3 <- inTable3$x
-inLat3 <- inTable3$y
-inSB3 <- inTable3$LogSoilmean
-
-lonMin3 <- min(inLon3)
-lonMax3 <- max(inLon3)
-latMin3 <- min(inLat3)
-latMax3 <- max(inLat3)
-
+lonMin <- min(inLon)
+lonMax <- max(inLon)
+latMin <- min(inLat)
+latMax <- max(inLat)
 
 res <- 1/60 #1arcmin resolution
 
-r3 <- raster(xmn=lonMin3, ymn=lonMax3, xmx=latMin3, ymx=latMax3, res=res)
+library(raster)
+r <- raster(xmn=lonMin, ymn=lonMax, xmx=latMin, ymx=latMax, res=res)
 
-cellNrs3 <- cellFromXY(r3, cbind(inLon3, inLat3))
-tab3 <- table(cellNrs3)
-head(tab3)
-r3[as.numeric(names(tab3))] <- tab3
+cellNrs <- cellFromXY(r, cbind(inLon, inLat))
+tab <- table(cellNrs)
+head(tab)
+r[as.numeric(names(tab))] <- tab
 
-d3 <- data.frame(coordinates(r3), count=r3[])
-dOut3 <- na.omit(d3)
-head(d3)
-Log_soil.meanFS <- numeric(nrow(dOut3))+NA
+d <- data.frame(coordinates(r), count=r[])
+dOut <- na.omit(d)
+head(d)
 
-for(i in 1:nrow(dOut3)){
-  lon3 <- dOut3[i,1]
-  lat3 <- dOut3[i,2]
+LogOptima.mean <- numeric(nrow(dOut))+NA
+
+for(i in 1:nrow(dOut)){
+  lon <- dOut[i,1]
+  lat <- dOut[i,2]
   
-  locs3 <- inLon3>=(lon3-res/2) & inLon3<=(lon3+res/2) & inLat3>=(lat3-res/2) & inLat3<=(lat3+res/2)
-  Log_soil.meanFS[i] <- mean(inSB3[locs3])
+  locs <- inLon>=(lon-res/2) & inLon<=(lon+res/2) & inLat>=(lat-res/2) & inLat<=(lat+res/2)
+  LogOptima.mean[i] <- mean(inSB[locs])
+}
+
+dOut$LogOptimamean <- LogOptima.mean
+#####end of fern-soil points averaging####
+
+########Soils only averaging#######
+soil_0_30Spatial<-data_fern
+data_soil<-read.csv2("soil_dataSHARE.csv")
+########Soils only averaging#######
+soil_0_30Spatial<-data_soil
+coordinates(soil_0_30Spatial) = ~longitude+latitude
+proj4string(soil_0_30Spatial) <- CRS("+proj=longlat +datum=WGS84")
+soil_0_30crop<- crop(soil_0_30Spatial, limitAMAZ)
+plot(soil_0_30crop, col="red")
+dim(soil_0_30crop)
+soil_0_30crop_df<-as.data.frame(soil_0_30crop)
+#check for duplicates
+dupl2 <- duplicated(soil_0_30crop_df)
+sum(dupl2)
+
+#seems there are none
+inTable2 <- soil_0_30crop_df[!dupl2,]
+write.csv(inTable2, "/Volumes/ZUQUIMUTU/workspaceHD_Gabi_Zuquim20DEC2016/Papers em andamento copy/Ancillary data paper/ANALYSIS_NEW/SoilMapFern/krigins/soilpoints.csv")
+dim(inTable2)
+
+names(inTable2)
+inLon2 <- inTable2$lon
+inLat2 <- inTable2$lat
+inSB2 <- inTable2$logSoil
+
+lonMin2 <- min(inLon2)
+lonMax2 <- max(inLon2)
+latMin2 <- min(inLat2)
+latMax2 <- max(inLat2)
+
+#sP <- SpatialPoints(cbind(inLon, inLat))
+#plot(sP, pch=".")
+
+res <- 1/60 #1arcmin resolution
+
+library(raster)
+r2 <- raster(xmn=lonMin2, ymn=lonMax2, xmx=latMin2, ymx=latMax2, res=res)
+
+cellNrs2 <- cellFromXY(r2, cbind(inLon2, inLat2))
+tab2 <- table(cellNrs2)
+head(tab2)
+r2[as.numeric(names(tab2))] <- tab2
+# plot(r)
+# rVals <- values(r)
+# sum(!is.na(rVals))
+
+d2 <- data.frame(coordinates(r2), count=r2[])
+dOut2 <- na.omit(d2)
+head(d2)
+#sP <- SpatialPoints(cbind(dOut[,1], dOut[,2]))
+#plot(sP, pch=".")
+
+Log_soil.mean <- numeric(nrow(dOut2))+NA
+
+for(i in 1:nrow(dOut2)){
+  lon2 <- dOut2[i,1]
+  lat2 <- dOut2[i,2]
+  
+  locs2 <- inLon2>=(lon2-res/2) & inLon2<=(lon2+res/2) & inLat2>=(lat2-res/2) & inLat2<=(lat2+res/2)
+  Log_soil.mean[i] <- mean(inSB2[locs2])
 }
 
 
-dOut3$LogSoilmean <- Log_soil.meanFS
-
-
+dOut2$LogSoilmean <- Log_soil.mean
+####end of soil averaging####
 ####End of Averaging####
+
 dOut$source<-"fern"
 colnames(dOut)[4]<-"LogSoilmean"
 dOut2$source<-"soil"
