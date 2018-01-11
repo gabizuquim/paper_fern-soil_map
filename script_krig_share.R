@@ -72,9 +72,12 @@ dOut3$LogSoilmean <- Log_soil.meanFS
 
 
 ####End of Averaging####
+dOut$source<-"fern"
+colnames(dOut)[4]<-"LogSoilmean"
+dOut2$source<-"soil"
 
 #spatial data
-soil_fernSpatial<-dOut3
+soil_fernSpatial<-rbind(dOut,dOut2)
 coordinates(soil_fernSpatial) = ~x + y
 proj4string(soil_fernSpatial) <- CRS("+proj=longlat +datum=WGS84")
 plot(soil_fernSpatial)
