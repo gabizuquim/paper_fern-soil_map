@@ -62,10 +62,8 @@ dOut$LogOptimamean <- LogOptima.mean
 #####end of fern-soil points averaging####
 
 ########Soils only averaging#######
-soil_0_30Spatial<-data_fern
-data_soil<-read.csv2("soil_dataSHARE.csv")
+soil_0_30Spatial<-read.csv2("soil_dataSHARE.csv")
 ########Soils only averaging#######
-soil_0_30Spatial<-data_soil
 coordinates(soil_0_30Spatial) = ~longitude+latitude
 proj4string(soil_0_30Spatial) <- CRS("+proj=longlat +datum=WGS84")
 soil_0_30crop<- crop(soil_0_30Spatial, limitAMAZ)
