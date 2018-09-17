@@ -7,9 +7,8 @@ library(rgdal)
 
 #Set a grid for the Amazon limits
 
-#get the Eva&Huber shapefile
-setwd("/myworkingspace")
-AMZ<-shape <- readOGR(dsn = ".", layer = "ama_final2t_dissolve")
+#set your area of interest shapefile
+AMZ<-readOGR(dsn = ".", layer = "myAreaOfInterestShapefile")
 BB<-bbox(AMZ)
 BBdf<-t(BB)
 BBdf<-as.data.frame(BBdf)
