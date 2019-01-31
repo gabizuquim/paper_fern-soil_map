@@ -27,7 +27,7 @@ plot(WA_ALL)
 #Evaluate the predictions using cross-validation (see Table 1 in Zuquim et al. 2019)
 crossWA<-crossval(WA_ALL)
 
-###Check if the correlations (R2) between predicted and 
+##Check if the correlations (R2) between predicted and 
 #observed values are satisfactory (e.g. >0.7) are high. If so, it means that the species 
 #pool chosen are in fact a good set of indicator species.
 performance(WA_ALL)
