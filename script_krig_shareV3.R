@@ -69,7 +69,7 @@ fernAvg <- data.frame(x=xFromCell(r, uniqueCells),
 
 #####end of fern-soil points averaging####
 
-########Soil measuerements only averaging#######
+#######Soil measuerements only averaging#######
 ## Soil measurements are aggregated over an area of 1 arcsec squared, 
 #and the average value is assigned to the centroid of that area
 
