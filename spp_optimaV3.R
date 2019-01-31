@@ -2,7 +2,7 @@ rm(list = ls())
 ####This script run a Weighted Averaging analysis to estimate species optima of occurrence along 
 #an environmental gradient####
 ###It corresponds to step 1 in the environmental mapping based on species records method described 
-#in Zuquim et al. 2019###
+#in Zuquim et al. 2019####
 
 #Load data
 #Species and environmental data should be entered as a single species abundance table:
