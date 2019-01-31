@@ -9,7 +9,7 @@ rm(list = ls())
 x<-c("sp", "raster","gstat", "rgdal")
 lapply(x, library, character.only = TRUE)
 
-#setwd("C:/Data/gabi/R")
+setwd("C:/Data/R")
 
 ##############################################################################################################
 ##  Specify the extent and spatial resolution of the output product.                                        ##
