@@ -9,6 +9,7 @@ rm(list = ls())
 x<-c("sp", "raster","gstat", "rgdal")
 lapply(x, library, character.only = TRUE)
 
+#set working directory
 setwd("C:/Data/R")
 
 ##############################################################################################################
