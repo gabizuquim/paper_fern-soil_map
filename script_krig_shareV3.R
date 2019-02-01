@@ -18,7 +18,9 @@ setwd("C:/Data/R")
 ##  Projection, extent and resolution can be set by the user by specifying values below                     ##
 ##############################################################################################################
 
-##  Extent from shapefile Amazonia
+##  Extent from shapefile Amazonia (Amazonian sensu latu - Eva & Huber 2005)
+##https://ec.europa.eu/jrc/en/publication/books/proposal-defining-geographical-boundaries-amazonia
+
 amzExtent <- extent(readOGR(dsn = ".", layer = "myAreaOfInterestShapefile", verbose=FALSE))
 out.xmin <- amzExtent@xmin
 out.xmax <- amzExtent@xmax
